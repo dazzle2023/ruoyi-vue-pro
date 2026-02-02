@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="Electron" modified="2024-05-22T12:05:00.000Z" agent="5.0" version="24.4.0" type="device">
+  <diagram id="SequenceDiagram" name="时序图">
+    <mxGraphModel dx="1422" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- Lifelines -->
+        <mxCell id="Dev" value="传感设备" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;outlineConnect=0;fillColor=#f5f5f5;" vertex="1" parent="1">
+          <mxGeometry x="40" y="40" width="100" height="700" as="geometry" />
+        </mxCell>
+        <mxCell id="OneNET" value="OneNET平台" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;outlineConnect=0;fillColor=#e1f5fe;strokeColor=#01579b;" vertex="1" parent="1">
+          <mxGeometry x="200" y="40" width="100" height="700" as="geometry" />
+        </mxCell>
+        <mxCell id="Mid" value="数据中台(ETL/TSDB)" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;outlineConnect=0;fillColor=#fff9c4;strokeColor=#fbc02d;" vertex="1" parent="1">
+          <mxGeometry x="360" y="40" width="120" height="700" as="geometry" />
+        </mxCell>
+        <mxCell id="Topic" value="专题库(MySQL)" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;outlineConnect=0;fillColor=#e8f5e9;strokeColor=#2e7d32;" vertex="1" parent="1">
+          <mxGeometry x="540" y="40" width="100" height="700" as="geometry" />
+        </mxCell>
+        <mxCell id="App" value="监管平台" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;outlineConnect=0;fillColor=#f3e5f5;strokeColor=#7b1fa2;" vertex="1" parent="1">
+          <mxGeometry x="700" y="40" width="100" height="700" as="geometry" />
+        </mxCell>
+
+        <!-- Messages Phase 1 -->
+        <mxCell id="Note1" value="阶段一：数据上报" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;size=15;fillColor=#fff;align=left;" vertex="1" parent="1">
+            <mxGeometry x="60" y="70" width="140" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="m1" value="上报遥测数据" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;" edge="1" parent="1" source="Dev" target="OneNET">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="90" y="120" as="sourcePoint" />
+            <mxPoint x="249.5" y="120" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="160" y="120" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m2" value="ACK" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;rounded=0;" edge="1" parent="1" source="OneNET" target="Dev">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="249.5" y="150" as="sourcePoint" />
+            <mxPoint x="90" y="150" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="170" y="150" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Loop Frame: Phase 2 -->
+        <mxCell id="Loop1" value="loop" style="shape=umlFrame;whiteSpace=wrap;html=1;width=60;height=20;" vertex="1" parent="1">
+          <mxGeometry x="180" y="170" width="300" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="txt_loop" value="[定时轮询]" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="Loop1">
+            <mxGeometry x="0" y="0" width="60" height="20" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="m3" value="API: DevicePropertyData (查询)" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;" edge="1" parent="1" source="Mid" target="OneNET">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="420" y="200" as="sourcePoint" />
+            <mxPoint x="250" y="200" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="340" y="200" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m4" value="Return JSON Data" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;rounded=0;" edge="1" parent="1" source="OneNET" target="Mid">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="250" y="230" as="sourcePoint" />
+            <mxPoint x="420" y="230" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="330" y="230" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m5" value="清洗/写入TSDB/算法分析" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="Mid" target="Mid">
+           <mxGeometry relative="1" as="geometry">
+            <mxPoint x="420" y="240" as="sourcePoint" />
+            <mxPoint x="420" y="270" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="450" y="240" />
+              <mxPoint x="450" y="270" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Alt Frame: Phase 3 -->
+        <mxCell id="Alt1" value="alt" style="shape=umlFrame;whiteSpace=wrap;html=1;width=60;height=80;" vertex="1" parent="1">
+          <mxGeometry x="340" y="320" width="280" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="txt_alt" value="[数据异常]" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="Alt1">
+             <mxGeometry x="0" y="0" width="60" height="20" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="m6" value="INSERT warning_table" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;" edge="1" parent="1" source="Mid" target="Topic">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="420" y="350" as="sourcePoint" />
+            <mxPoint x="590" y="350" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m7" value="Success" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;rounded=0;" edge="1" parent="1" source="Topic" target="Mid">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="590" y="380" as="sourcePoint" />
+            <mxPoint x="420" y="380" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Phase 4 -->
+        <mxCell id="m8" value="轮询/监听 预警表" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;" edge="1" parent="1" source="App" target="Topic">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="750" y="440" as="sourcePoint" />
+            <mxPoint x="590" y="440" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m9" value="返回最新预警" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;rounded=0;" edge="1" parent="1" source="Topic" target="App">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="590" y="470" as="sourcePoint" />
+            <mxPoint x="750" y="470" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m10" value="界面弹窗报警" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="App" target="App">
+           <mxGeometry relative="1" as="geometry">
+            <mxPoint x="750" y="480" as="sourcePoint" />
+            <mxPoint x="750" y="510" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="780" y="480" />
+              <mxPoint x="780" y="510" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Par Frame: Detail Check -->
+        <mxCell id="Par1" value="par" style="shape=umlFrame;whiteSpace=wrap;html=1;width=60;height=90;" vertex="1" parent="1">
+          <mxGeometry x="190" y="530" width="600" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="txt_par" value="[查看详情]" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="Par1">
+             <mxGeometry x="0" y="0" width="60" height="20" as="geometry"/>
+        </mxCell>
+        
+        <mxCell id="m11" value="查询设备台账" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;" edge="1" parent="1" source="App" target="Topic">
+          <mxGeometry relative="1" as="geometry">
+             <mxPoint x="750" y="560" as="sourcePoint" />
+             <mxPoint x="590" y="560" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m12" value="API: DevicePropertyHistory (历史趋势)" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;" edge="1" parent="1" source="App" target="OneNET">
+           <mxGeometry relative="1" as="geometry">
+             <mxPoint x="750" y="590" as="sourcePoint" />
+             <mxPoint x="250" y="590" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Control Phase -->
+        <mxCell id="m13" value="API: CallService (关闭阀门)" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;" edge="1" parent="1" source="App" target="OneNET">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="750" y="650" as="sourcePoint" />
+            <mxPoint x="250" y="650" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m14" value="下发控制指令" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;" edge="1" parent="1" source="OneNET" target="Dev">
+          <mxGeometry relative="1" as="geometry">
+             <mxPoint x="250" y="670" as="sourcePoint" />
+             <mxPoint x="90" y="670" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m15" value="执行成功" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;rounded=0;" edge="1" parent="1" source="Dev" target="OneNET">
+          <mxGeometry relative="1" as="geometry">
+             <mxPoint x="90" y="690" as="sourcePoint" />
+             <mxPoint x="250" y="690" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

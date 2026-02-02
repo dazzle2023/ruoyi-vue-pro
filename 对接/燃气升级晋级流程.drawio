@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="Electron" modified="2024-05-22T17:00:00.000Z" agent="5.0" version="24.4.0" type="device">
+  <diagram id="GasBPMN" name="燃气告警动态晋级流程">
+    <mxGraphModel dx="1422" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- STYLES DEFINITION (Implicitly applied below) -->
+        <!-- 
+             Start Event: ellipse;fillColor=#e8f5e9;strokeColor=#2e7d32
+             Gateway: rhombus;fillColor=#fff9c4;strokeColor=#fbc02d
+             Task: rounded rect;fillColor=#ffffff;strokeColor=#1565c0
+             Signal Throw: ellipse double border;fillColor=#e1bee7;strokeColor=#7b1fa2
+             End Event: thick ellipse;fillColor=#ffebee;strokeColor=#c62828
+        -->
+
+        <!-- ================= MAIN PROCESS FLOW ================= -->
+
+        <!-- Start Event -->
+        <mxCell id="Start" value="开始:&lt;br&gt;接收初次告警" style="shape=mxgraph.bpmn.shape;html=1;verticalLabelPosition=bottom;labelBackgroundColor=#ffffff;verticalAlign=top;perimeter=ellipsePerimeter;outline=standard;symbol=general;fillColor=#e8f5e9;strokeColor=#2e7d32;strokeWidth=2;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="385" y="40" width="50" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- Gateway: Check Active -->
+        <mxCell id="CheckActive" value="是否存在&lt;br&gt;活跃流程?" style="shape=mxgraph.bpmn.shape;html=1;verticalLabelPosition=bottom;labelBackgroundColor=#ffffff;verticalAlign=top;perimeter=rhombusPerimeter;background=gateway;outline=none;symbol=exclusive;fillColor=#fff9c4;strokeColor=#fbc02d;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="370" y="140" width="80" height="80" as="geometry" />
+        </mxCell>
+
+        <!-- Signal Throw Event -->
+        <mxCell id="ThrowSignal" value="投递信号:&lt;br&gt;更新告警级别" style="shape=mxgraph.bpmn.shape;html=1;verticalLabelPosition=bottom;labelBackgroundColor=#ffffff;verticalAlign=top;perimeter=ellipsePerimeter;outline=double;symbol=signal;fillColor=#e1bee7;strokeColor=#7b1fa2;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="600" y="150" width="60" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- Gateway: Level Check -->
+        <mxCell id="LevelCheck" value="判断&lt;br&gt;初始等级" style="shape=mxgraph.bpmn.shape;html=1;verticalLabelPosition=bottom;labelBackgroundColor=#ffffff;verticalAlign=top;perimeter=rhombusPerimeter;background=gateway;outline=none;symbol=exclusive;fillColor=#fff9c4;strokeColor=#fbc02d;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="370" y="270" width="80" height="80" as="geometry" />
+        </mxCell>
+
+        <!-- ================= SUB PROCESSES ================= -->
+
+        <!-- Low Scope -->
+        <mxCell id="Low_Scope" value="阶段一：低风险处置 (预警)" style="swimlane;html=1;startSize=30;rounded=1;arcSize=10;dashed=1;fillColor=#f5f5f5;strokeColor=#666666;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="40" y="400" width="240" height="320" as="geometry" />
+        </mxCell>
+        <mxCell id="L1" value="系统自动派发&lt;br&gt;核实工单" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#1565c0;strokeWidth=2;" vertex="1" parent="Low_Scope">
+          <mxGeometry x="45" y="50" width="150" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="L2" value="等待网格员&lt;br&gt;现场核实" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#1565c0;strokeWidth=2;" vertex="1" parent="Low_Scope">
+          <mxGeometry x="45" y="140" width="150" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="L3" value="反馈: 误报或处置" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#1565c0;strokeWidth=2;" vertex="1" parent="Low_Scope">
+          <mxGeometry x="45" y="230" width="150" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="edge_L1_L2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="Low_Scope" source="L1" target="L2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge_L2_L3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="Low_Scope" source="L2" target="L3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Med Scope -->
+        <mxCell id="Med_Scope" value="阶段二：中风险处置 (次生阻断)" style="swimlane;html=1;startSize=30;rounded=1;arcSize=10;dashed=1;fillColor=#f5f5f5;strokeColor=#666666;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="360" y="400" width="240" height="320" as="geometry" />
+        </mxCell>
+        <mxCell id="M1" value="OneNET下发:&lt;br&gt;调压箱切断指令" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#1565c0;strokeWidth=2;" vertex="1" parent="Med_Scope">
+          <mxGeometry x="45" y="50" width="150" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="M2" value="生成抢修工单&lt;br&gt;调度最近车辆" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#1565c0;strokeWidth=2;" vertex="1" parent="Med_Scope">
+          <mxGeometry x="45" y="140" width="150" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="M3" value="现场抢修作业" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#1565c0;strokeWidth=2;" vertex="1" parent="Med_Scope">
+          <mxGeometry x="45" y="230" width="150" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="edge_M1_M2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="Med_Scope" source="M1" target="M2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge_M2_M3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="Med_Scope" source="M2" target="M3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- High Scope -->
+        <mxCell id="High_Scope" value="阶段三：高风险处置 (应急响应)" style="swimlane;html=1;startSize=30;rounded=1;arcSize=10;dashed=1;fillColor=#f5f5f5;strokeColor=#666666;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="680" y="400" width="240" height="400" as="geometry" />
+        </mxCell>
+        <mxCell id="H1" value="启动城市级&lt;br&gt;应急预案" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#1565c0;strokeWidth=2;" vertex="1" parent="High_Scope">
+          <mxGeometry x="45" y="50" width="150" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="H2" value="CIM辅助研判:&lt;br&gt;生成疏散半径" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#1565c0;strokeWidth=2;" vertex="1" parent="High_Scope">
+          <mxGeometry x="45" y="140" width="150" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="H3" value="多部门联动:&lt;br&gt;消防/交警/医疗" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#1565c0;strokeWidth=2;" vertex="1" parent="High_Scope">
+          <mxGeometry x="45" y="230" width="150" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="H4" value="应急指挥大屏&lt;br&gt;实战模式" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#1565c0;strokeWidth=2;" vertex="1" parent="High_Scope">
+          <mxGeometry x="45" y="320" width="150" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="edge_H1_H2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="High_Scope" source="H1" target="H2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge_H2_H3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="High_Scope" source="H2" target="H3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge_H3_H4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="High_Scope" source="H3" target="H4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- ================= BOUNDARY EVENTS ================= -->
+
+        <!-- Boundary Med (Attached to Low Scope) -->
+        <mxCell id="Boundary_Med" value="⚡ 升级中风险" style="shape=mxgraph.bpmn.shape;html=1;verticalLabelPosition=bottom;labelBackgroundColor=#ffffff;verticalAlign=top;perimeter=ellipsePerimeter;outline=double;symbol=signal;fillColor=#e1bee7;strokeColor=#7b1fa2;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="260" y="450" width="40" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- Boundary High (Attached to Med Scope) -->
+        <mxCell id="Boundary_High" value="⚡ 升级高风险" style="shape=mxgraph.bpmn.shape;html=1;verticalLabelPosition=bottom;labelBackgroundColor=#ffffff;verticalAlign=top;perimeter=ellipsePerimeter;outline=double;symbol=signal;fillColor=#e1bee7;strokeColor=#7b1fa2;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="580" y="450" width="40" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- Boundary High Direct (Attached to Low Scope) -->
+        <mxCell id="Boundary_High_Direct" value="⚡ 直升高风险" style="shape=mxgraph.bpmn.shape;html=1;verticalLabelPosition=bottom;labelBackgroundColor=#ffffff;verticalAlign=top;perimeter=ellipsePerimeter;outline=double;symbol=signal;fillColor=#e1bee7;strokeColor=#7b1fa2;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="260" y="550" width="40" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- End Event -->
+        <mxCell id="End" value="流程结束" style="shape=mxgraph.bpmn.shape;html=1;verticalLabelPosition=bottom;labelBackgroundColor=#ffffff;verticalAlign=top;perimeter=ellipsePerimeter;outline=end;symbol=general;fillColor=#ffebee;strokeColor=#c62828;strokeWidth=4;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="455" y="840" width="50" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- ================= CONNECTIONS ================= -->
+
+        <!-- Start -> Check -->
+        <mxCell id="e1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="Start" target="CheckActive">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Check -> Throw Signal (Yes) -->
+        <mxCell id="e2" value="是 (关联ID匹配)" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="CheckActive" target="ThrowSignal">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Check -> Level Check (No) -->
+        <mxCell id="e3" value="否 (新事件)" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="CheckActive" target="LevelCheck">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Level Check branches -->
+        <mxCell id="e4" value="低风险" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="LevelCheck" target="Low_Scope">
+          <mxGeometry relative="1" as="geometry">
+             <Array as="points">
+               <mxPoint x="410" y="380" />
+               <mxPoint x="160" y="380" />
+             </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e5" value="中风险" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="LevelCheck" target="Med_Scope">
+          <mxGeometry relative="1" as="geometry">
+             <Array as="points">
+               <mxPoint x="410" y="380" />
+               <mxPoint x="480" y="380" />
+             </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e6" value="高风险" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="LevelCheck" target="High_Scope">
+          <mxGeometry relative="1" as="geometry">
+             <Array as="points">
+               <mxPoint x="410" y="380" />
+               <mxPoint x="800" y="380" />
+             </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Signal Flows (Dashed) -->
+        <mxCell id="sig1" value="信号穿透" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;dashed=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="ThrowSignal" target="Boundary_High">
+          <mxGeometry relative="1" as="geometry">
+             <Array as="points">
+               <mxPoint x="630" y="370" />
+               <mxPoint x="640" y="370" />
+               <mxPoint x="640" y="470" />
+             </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="sig2" value="信号穿透" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;dashed=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="ThrowSignal" target="Boundary_Med">
+          <mxGeometry relative="1" as="geometry">
+             <Array as="points">
+               <mxPoint x="630" y="370" />
+               <mxPoint x="320" y="370" />
+               <mxPoint x="320" y="470" />
+             </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Boundary Transitions -->
+        <mxCell id="t1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;entryX=0;entryY=0.25;entryDx=0;entryDy=0;" edge="1" parent="1" source="Boundary_Med" target="Med_Scope">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="t2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;entryX=0;entryY=0.25;entryDx=0;entryDy=0;" edge="1" parent="1" source="Boundary_High" target="High_Scope">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="t3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="Boundary_High_Direct" target="High_Scope">
+          <mxGeometry relative="1" as="geometry">
+             <Array as="points">
+               <mxPoint x="280" y="820" />
+               <mxPoint x="800" y="820" />
+             </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- To End -->
+        <mxCell id="end1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="L3" target="End">
+          <mxGeometry relative="1" as="geometry">
+             <Array as="points">
+               <mxPoint x="115" y="865" />
+             </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="end2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="M3" target="End">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="end3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="H4" target="End">
+          <mxGeometry relative="1" as="geometry">
+             <Array as="points">
+               <mxPoint x="800" y="865" />
+             </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Annotation -->
+        <mxCell id="Note1" value="BPMN核心逻辑:&lt;br&gt;1. 边界事件 (Boundary Event) 监听升级信号&lt;br&gt;2. 设置为'中断'(Interrupting), 丢弃当前低级任务" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;fillColor=#fff9c4;strokeColor=#fbc02d;size=15;align=left;" vertex="1" parent="1">
+          <mxGeometry x="40" y="740" width="220" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="link_note" style="edgeStyle=none;rounded=0;html=1;dashed=1;endArrow=none;" edge="1" parent="1" source="Note1" target="Boundary_Med">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
